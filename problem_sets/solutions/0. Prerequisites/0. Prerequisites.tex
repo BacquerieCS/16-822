@@ -1,0 +1,621 @@
+\documentclass[11pt,addpoints,answers]{exam}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{xfrac}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{paralist}
+\usepackage{epstopdf}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{fancyvrb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{float}
+\usepackage{paralist}
+\usepackage[svgname]{xcolor}
+\usepackage{enumerate}
+\usepackage{array}
+\usepackage{times}
+\usepackage{url}
+\usepackage{comment}
+\usepackage{environ}
+\usepackage{times}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{listings}
+\usepackage{parskip} % For NIPS style paragraphs.
+\usepackage[compact]{titlesec} % Less whitespace around titles
+\usepackage[inline]{enumitem} % For inline enumerate* and itemize*
+\usepackage{datetime}
+\usepackage{comment}
+% \usepackage{minted}
+\usepackage{lastpage}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,decorations,bayesnet}
+%\usepackage{framed}
+\usepackage{booktabs}
+\usepackage{cprotect}
+\usepackage{xcolor}
+\usepackage{verbatimbox}
+\usepackage[many]{tcolorbox}
+\usepackage{cancel}
+\usepackage{wasysym}
+\usepackage{mdframed}
+\usepackage{subcaption}
+\usetikzlibrary{shapes.geometric}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting for \CorrectChoice of "exam" %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\CorrectChoiceEmphasis{}
+\checkedchar{\blackcircle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Better numbering                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Common Math Commands                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{mathabbreviations.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code highlighting with listings         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\definecolor{light-gray}{gray}{0.95}
+
+\newcommand{\MYhref}[3][blue]{\href{#2}{\color{#1}{#3}}}%
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstdefinelanguage{Shell}{
+  keywords={tar, cd, make},
+  %keywordstyle=\color{bluekeywords}\bfseries,
+  alsoletter={+},
+  ndkeywords={python, py, javac, java, gcc, c, g++, cpp, .txt, octave, m, .tar},
+  %ndkeywordstyle=\color{bluekeywords}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  backgroundcolor = \color{light-gray}
+}
+
+\lstset{columns=fixed, basicstyle=\ttfamily,
+    backgroundcolor=\color{light-gray},xleftmargin=0.5cm,frame=tlbr,framesep=4pt,framerule=0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom box for highlights               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define box and box title style
+\tikzstyle{mybox} = [fill=blue!10, very thick,
+    rectangle, rounded corners, inner sep=1em, inner ysep=1em]
+
+\NewEnviron{notebox}{
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{\textwidth}
+        \BODY
+    \end{minipage}
+};
+\end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands showing / hiding solutions     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% To HIDE SOLUTIONS (to post at the website for students), set this value to 0: \def\issoln{0}
+\def\issoln{0}
+% Some commands to allow solutions to be embedded in the assignment file.
+\ifcsname issoln\endcsname \else \def\issoln{0} \fi
+% Default to an empty solutions environ.
+\NewEnviron{soln}{}{}
+% Default to an empty qauthor environ.
+\NewEnviron{qauthor}{}{}
+% Default to visible (but empty) solution box.
+\newtcolorbox[]{studentsolution}[1][]{%
+    breakable,
+    enhanced,
+    colback=white,
+    title=Solution,
+    #1
+}
+
+\if\issoln 1
+% Otherwise, include solutions as below.
+\RenewEnviron{soln}{
+    \leavevmode\color{red}\ignorespaces
+    \textbf{Solution} \BODY
+}{}
+\fi
+
+\if\issoln 1
+% Otherwise, include solutions as below.
+\RenewEnviron{solution}{}
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands for customizing the assignment %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\courseNum}{\href{https://geometric3d.github.io}{16822}}
+\newcommand{\courseName}{\href{https://geometric3d.github.io}{Geometry-based Methods in Vision}}
+\newcommand{\courseSem}{\href{https://geometric3d.github.io}{Fall 2024}}
+\newcommand{\courseUrl}{\url{https://piazza.com/cmu/fall2024/16822}}
+\newcommand{\hwNum}{Problem Set 0}
+\newcommand{\hwTopic}{Linear Algebra }
+\newcommand{\hwName}{\hwNum: \hwTopic}
+\newcommand{\outDate}{Aug. 28, 2024}
+\newcommand{\dueDate}{Sep. 05, 2024 23:59}
+\newcommand{\instructorName}{Shubham Tulsiani}
+\newcommand{\taNames}{Jianjin Xu, Easton Potokar}
+
+%\pagestyle{fancyplain}
+\lhead{\hwName}
+\rhead{\courseNum}
+\cfoot{\thepage{} of \numpages{}}
+
+\title{\textsc{\hwName}} % Title
+
+
+\author{}
+
+\date{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Useful commands for typesetting the questions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand \expect {\mathbb{E}}
+\newcommand \mle [1]{{\hat #1}^{\rm MLE}}
+\newcommand \map [1]{{\hat #1}^{\rm MAP}}
+\newcommand \argmax {\operatorname*{argmax}}
+\newcommand \argmin {\operatorname*{argmin}}
+\newcommand \code [1]{{\tt #1}}
+\newcommand \datacount [1]{\#\{#1\}}
+\newcommand \ind [1]{\mathbb{I}\{#1\}}
+
+\newcommand{\blackcircle}{\tikz\draw[black,fill=black] (0,0) circle (1ex);}
+\renewcommand{\circle}{\tikz\draw[black] (0,0) circle (1ex);}
+
+\newcommand{\pts}[1]{\textbf{[#1 pts]}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Additional custom commands %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\colsp}[1]{\textbf{C$(#1)$}}
+\newcommand{\threemat}[9]{\begin{bmatrix} #1 & #2 & #3 \\ #4 & #5 & #6 \\ #7 & #8 & #9 \end{bmatrix}}
+\newcommand{\twodet}[4]{\left|\begin{matrix} #1 & #2 \\ #3 & #4 \end{matrix}\right|}
+\newcommand{\twomat}[4]{\begin{bmatrix} #1 & #2 \\ #3 & #4 \end{bmatrix}}
+\newcommand{\twovec}[2]{\begin{bmatrix} #1 \\ #2 \end{bmatrix}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document configuration %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't display a date in the title and remove the white space
+\predate{}
+\postdate{}
+\date{}
+
+%%%%%%%%%%%%%%%%%%
+% Begin Document %
+%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\section*{}
+\begin{center}
+  \textsc{\LARGE \hwNum} \\
+%   \textsc{\LARGE \hwTopic\footnote{Compiled on \today{} at \currenttime{}}} \\
+  \vspace{1em}
+  \textsc{\large \courseNum{} \courseName{} (\courseSem)} \\
+  %\vspace{0.25em}
+  \courseUrl\\
+  \vspace{1em}
+  OUT: \outDate \\
+  DUE: \dueDate \\
+  Instructor: \instructorName \\
+  TAs: \taNames
+\end{center}
+
+\section*{START HERE: Instructions}
+\begin{itemize}
+\item \textbf{Collaboration policy:} All are encouraged to work together BUT you must do your own work (code and write up). If you work with someone, please include their name in your write up and cite any code that has been discussed. If we find highly identical write-ups or code without proper accreditation of collaborators, we will take action according to university policies, i.e. you will likely fail the course. See the \href{https://www.dropbox.com/s/z6o0tinc9eaez46/L01_Overview.pdf?dl=0}{Academic Integrity Section} detailed in the initial lecture for more information.
+
+
+\item\textbf{Submitting your work:}
+
+\begin{itemize}
+
+\item We will be using Gradescope (\url{https://gradescope.com/}) to submit the Problem Sets. Please use the provided template. Submissions can be written in LaTeX. Regrade requests can be made, however this gives the TA the opportunity to regrade your entire paper, meaning if additional mistakes are found then points will be deducted.
+Each derivation/proof should be  completed on a separate page. For short answer questions you \textbf{should} include your work in your solution.  
+\end{itemize}
+
+\item \textbf{Materials:} The data that you will need in order to complete this assignment is posted along with the writeup and template on Piazza.
+
+\end{itemize}
+
+For multiple choice or select all that apply questions, replace \lstinline{\choice} with \lstinline{\CorrectChoice} to obtain a shaded box/circle, and don't change anything else.
+
+
+For questions where you must fill in a blank, please make sure your final answer is fully included in the given space. You may cross out answers or parts of answers, but the final answer must still be within the given space. We accept either LaTex pdfs or scanned documents as long as the location of each question is annotated properly.
+
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1 VECTOR SPACES                                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vector Spaces  [16pts]}
+\begin{questions}
+
+%%%%% QUESTION
+\question \textbf{[4 pts]} Which of the following subsets of $\mathbb{R}^3$ are vector spaces?
+    \textbf{Select all that are true:} 
+    \checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+    \begin{checkboxes}
+        \CorrectChoice The plane formed by the vector $(v_1, v_2, v_3) $ such that $v_1 = v_2$
+        \choice The plane formed by the vector $(v_1, v_2, v_3) $ such that $v_1 = 1$
+        \choice The plane formed by the vector $(v_1, v_2, v_3) $  such that $v_1 v_2 v_3 = 0$
+        \CorrectChoice All linear combinations of $\vv = (1, 4, 0)$ and $\wv = (2, 2, 2)$
+    \end{checkboxes}
+
+%%%%% QUESTION
+\question \textbf{[4 pts]} For the following questions, consider a matrix $\Av \in \mathbb{R}^{m \times n}$ and a vector $b \in \mathbb{R}^m$. Answer True or false (with a counterexample if false):
+    \textbf{Select all that are true:} 
+    \begin{checkboxes}
+        \CorrectChoice The vectors b that are not in the column space $\Cv(\Av)$ form a subspace.
+        \CorrectChoice If $\Cv(\Av)$ contains only zero vectors, then $\Av$ is the zero matrix.
+        \CorrectChoice The column space of the matrix $2\Av$ equals the column space of $\Av$
+        \choice The column space of the matrix $\Av - \Iv$ equals the column space of $\Av$
+    \end{checkboxes}
+    \begin{tcolorbox}[fit,height=3cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        \textit{The column space of the matrix $\Av - \Iv$ equals the column space of $\Av$.}\\
+
+        If $A = \twomat{1}{3}{2}{6}$, then $\colsp{A} = \left\{\twovec{1}{2}\right\}$, but if $A - I = \twomat{0}{3}{2}{5}$, then $\colsp{A - I} = \left\{\twovec{0}{2}, \twovec{3}{5}\right\}$.
+    \end{tcolorbox}
+
+%%%%% QUESTION
+\question \textbf{[4 pts]} Create a $3 \times 4$ matrix whose solution to $\Av \xv = 0$ is the $\sv_1=\begin{bmatrix}
+         -3 \\
+         1 \\
+         0 \\
+         0
+        \end{bmatrix}$ and $\sv_2=\begin{bmatrix}
+         -2 \\
+         0 \\
+         -6 \\
+         0
+        \end{bmatrix}$
+
+    \begin{tcolorbox}[fit,height=3cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        \begin{align*}
+            A = \begin{bmatrix}
+                -3 & -9 $ 1 $ 1 \\
+                -3 & -9 $ 1 $ 2 \\
+                -3 & -9 $ 1 $ 3
+            \end{bmatrix}
+        \end{align*}
+    \end{tcolorbox}
+
+%%%%% QUESTION
+\question \textbf{[4 pts]} If a $3{\times}4$ matrix has rank $3$, what are its column space and left nullspace?
+
+    \begin{tcolorbox}[fit,height=3cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        $\colsp{A} = \mathbb{R}^3$ and $\textbf{Null}(A) = \mathbf{0}$
+    \end{tcolorbox}
+
+
+\end{questions}
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1 EIGENVALUES, EIGENVECTORS, SVD                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eigenvalues, Eigenvector, Singular Value Decomposition [32 pts]}
+\begin{questions}
+
+    %%%%% QUESTION
+    \question \textbf{[4 pts]}  Deduce the Eigenvalue and Eigenvectors of $\Av$:
+    \begin{align*}
+        \begin{bmatrix}
+            1 & 2 \\ 2 & 4
+        \end{bmatrix}
+    \end{align*}
+    \begin{tcolorbox}[fit, height=7cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, nobeforeafter]
+        $\left|A - \lambda I \right| = \twodet{1 - \lambda}{2}{2}{4 - \lambda} = (1 - \lambda)(4 - \lambda) - 4 = 4 - 5\lambda + \lambda^2 - 4 = \lambda (\lambda - 5)$. Then $\lambda = 0, 5$.\\
+        
+        If $\lambda = 0$, then we need to solve $\twomat{1}{2}{2}{4} v = 0$
+        $$
+            \begin{array}{c}
+                v_1 + 2v_2 = 0  \\ 2v_1 + 4v_2 = 0
+            \end{array}
+        $$
+        Then $v_1 = -2v_2$, resulting in $v_1 = \twovec{-2}{1}$.
+
+        If $\lambda = 5$, then we need to solve $\twomat{-4}{2}{2}{-1} v = 0$
+        $$
+            \begin{array}{c}
+                2v_1 - v_2 = 0
+            \end{array}
+        $$
+        Then $2v_1 = v_2$, resulting in $v_2 = \twovec{1}{2}$.
+    \end{tcolorbox}
+
+    %%%%% QUESTION
+    \question \textbf{[4 pts]}   For
+    \begin{align*}
+         \Av = \begin{bmatrix}
+             2 & -1 \\ -1 & 2
+         \end{bmatrix}
+     \end{align*}
+     Find the Eigenvalues and Eigenvectors of $\Av, \Av^2$ and $\Av^{-1}$ and $\Av + 4\Iv$
+
+    \begin{tcolorbox}[fit, height=6cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, nobeforeafter]
+        $\left|A - \lambda I \right| = \twodet{2 - \lambda}{-1}{-1}{2 - \lambda} = (2 - \lambda)^2 - 1 = 4 - 4\lambda + \lambda^2 - 1 = (\lambda - 3)(\lambda - 1)$. Then, $\lambda = 1, 3$.\\
+        
+        If $\lambda = 1$, then we need to solve $\twomat{1}{-1}{-1}{1} v = 0$, which results in $v_1 - v_2 = 0$, producing $v_1 = \twovec{1}{1}$.
+
+        If $\lambda = 3$, then we need to solve $\twomat{-1}{-1}{-1}{-1} v = 0$, which results in $-v_1 - v_2 = 0$, producing $v_2 = \twovec{-1}{1}$.
+
+        For $\Av^2$, the eigenvalues are also squared; $\lambda = 1, 9$, and the eigenvectors remain the same.\\
+
+        For $\Av^{-1}$, the eigenvalues are the reciprocal of those for $\Av$, then $\lambda = 1, \frac{1}{3}$, and the eigenvectors remain the same.\\
+
+        For $\Av + 4I$, the eigenvalues are also displaced $+4$ units, resulting in $\lambda = 5, 7$, but the eigenvectors remain the same.
+    \end{tcolorbox}
+
+    %%%%% QUESTION
+    \question \textbf{[4 pts]}  $\Av \in \mathbb{R}^{m \times n}$ is positive definite if for any \textbf{non-zero} vector $\xv \in \mathbb{R}^{n}$  we have $\xv^\top \Av \xv > 0$:
+    \begin{align*}
+        \xv^\top \Av \xv = \begin{bmatrix}
+            x & y
+        \end{bmatrix} \begin{bmatrix}
+            a & b \\ b & c
+        \end{bmatrix}
+        \begin{bmatrix}
+            x \\ y
+        \end{bmatrix}
+    \end{align*}
+
+    Test matrices $\Cv$ and $\Dv$ for positive definitiveness
+    \begin{align*}
+        \Cv=\begin{bmatrix}
+                 2 & -1 & 0 \\
+                 -1 & 2 & -1 \\
+                 0 & -1 & 2
+                \end{bmatrix};
+        \Dv=\begin{bmatrix}
+                 2 & -1 & b \\
+                 -1 & 2 & -1 \\
+                 b & -1 & 2
+                \end{bmatrix}
+    \end{align*}
+    \begin{tcolorbox}[fit,height=8cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        Given that \textbf{C} is a \textit{Hermitian matrix}, we can apply \textbf{Sylvester's Criterion}, that says that a Hermitian matrix is positive definite if all the matrix' leading minors are positive. Then:\\
+
+        The first minor $|2| = 2$ is \textbf{positive}.\\
+
+        The second minor $\twodet{2}{-1}{-1}{2} = 4 - 1 = 3$ is \textbf{positive}.
+
+        The matrix itself $2\twodet{2}{-1}{-1}{2} - (-1)\twodet{-1}{-1}{0}{2} + 0\twodet{-1}{2}{0}{-1} = 2(3) + (-2) + 0 = 4$ is \textbf{positive}. Then, \textbf{C}
+        is \textbf{positive definite}.\\
+
+        For \textbf{D}, the only leading minor that changes is that of the matrix itself, so we'll only evaluate the bigger determinant and reuse the other ones.\\
+
+        $2\twodet{2}{-1}{-1}{2} - (-1)\twodet{-1}{-1}{b}{2} + b\twodet{-1}{2}{b}{-1} = 2(3) + (b - 2) + b(1 - 2b) = -2b^2 + 2b + 4 = -2(b - 2)(b + 1)$, which makes
+        \textbf{D} positive definite for $b \in (-1, 2)$.
+    \end{tcolorbox}
+
+    %%%%% QUESTION
+    \question \textbf{[6 pts]}   Estimate the singular values $\sigma_1$ and $\sigma_2$ of the matrix $\Av$
+    \begin{align*}
+        \Av = \begin{bmatrix}
+            1 & 0 \\ C & 1
+        \end{bmatrix}
+    \end{align*}
+
+    \begin{tcolorbox}[fit,height=5cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        The singular values of $\Av$ are obtained by $\sqrt{\left| \Av\Av^T - \lambda I \right|}$. Given $\Av\Av^T = \twomat{1}{C}{C}{C^2 + 1}$:
+        $$
+            \left| \Av\Av^T - \lambda I \right| = \twodet{1 - \lambda}{C}{C}{C^2 + 1 - \lambda} = (1 - \lambda)(c^2 + 1 - \lambda) - C^2 = \lambda^2 - (C^2 + 2)\lambda + 1
+        $$
+        $$
+            \lambda = \frac{C^2 + 2 \pm \sqrt{(C^2 + 2)^2 - 4}}{2} = \frac{C^2 + 2 \pm \sqrt{C^2(C^2 + 4)}}{2} = \frac{C^2 + 2 \pm C\sqrt{C^2 + 4}}{2}
+        $$
+        which does not reduce nicely, leading to $\sigma_{1, 2} = \sqrt{\frac{C^2 + 2 \pm C\sqrt{C^2 + 4}}{2}}$
+    \end{tcolorbox}
+
+    %%%%% QUESTION
+    \question \textbf{[6 pts]}  Find the pseudoinverse of $\Av \in \mathbb{R}^{m \times n}$
+    \begin{align*}
+        \Av = \begin{bmatrix}
+            2 & 2 \\ 1 & 1
+        \end{bmatrix}
+    \end{align*}
+    \begin{tcolorbox}[fit,height=12cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        First, we compute the singular values through $\Av^T\Av = \twomat{2}{1}{2}{1}\twomat{2}{2}{1}{1} = \twomat{5}{5}{5}{5}$, and
+        $$
+            \left| \Av^T\Av - \lambda\Iv \right| = \twodet{5 - \lambda}{5}{5}{5 - \lambda} = (5 - \lambda)^2 - 25 = \lambda(\lambda - 10)
+        $$
+        giving $\lambda_{1, 2} = 10, 0$, and producing $\Sigma = \twomat{\sqrt{10}}{0}{0}{0}$ and $\Sigma^+ = \twomat{\frac{1}{\sqrt{10}}}{0}{0}{0}$.
+
+        If $\lambda = 10$, then we need to solve $\twomat{-5}{5}{5}{-5}v = 0$, which results in $-5v_1+5v_2 = 0$, producing $v_1 = \twovec{\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}$.
+
+        If $\lambda = 0$, then we need to solve $\twomat{5}{5}{5}{5}v = 0$, which results in $5v_1+5v_2 = 0$, producing $v_1 = \twovec{-\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}$, thus producing a matrix $V = \twomat{\frac{1}{\sqrt{2}}}{-\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}$.\\
+
+        With $v_1$, we generate $u_1$ as
+        $$
+            u_1 = \frac{1}{\sqrt{10}}\twomat{2}{2}{1}{1}\twovec{\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}
+                = \frac{1}{\sqrt{10}}\twovec{2\sqrt{2}}{\sqrt{2}}
+                = \twovec{\frac{2}{\sqrt{5}}}{\frac{1}{\sqrt{5}}}
+        $$
+        and $u_2$ as an orthogonal vector, $u_2 = \twovec{-\frac{1}{\sqrt{5}}}{\frac{2}{\sqrt{5}}}$, thus producing $U = \twomat{\frac{2}{\sqrt{5}}}{-\frac{1}{\sqrt{5}}}{\frac{1}{\sqrt{5}}}{\frac{2}{\sqrt{5}}}$.\\
+
+        Then, we compute the pseudo-inverse $\Av^+$ as
+        $$
+            \Av^+ = V\Sigma^+U^T
+                = \twomat{\frac{1}{\sqrt{2}}}{-\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}
+                    \twomat{\frac{1}{\sqrt{10}}}{0}{0}{0}
+                    \twomat{\frac{2}{\sqrt{5}}}{\frac{1}{\sqrt{5}}}{-\frac{1}{\sqrt{5}}}{\frac{2}{\sqrt{5}}}
+                = \twomat{\frac{1}{\sqrt{2}}}{-\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}{\frac{1}{\sqrt{2}}}
+                    \twomat{\frac{\sqrt{2}}{5}}{\frac{1}{5\sqrt{2}}}{0}{0}
+                = \twomat{1/5}{1/10}{1/5}{1/10}
+        $$
+    \end{tcolorbox}
+
+    %%%%% QUESTION
+    \question \textbf{[8 pts]} Suppose the following information is known about matrix $\mathbf{A}$:
+    
+    \begin{align*}
+    \mathbf{A} \begin{bmatrix}
+        1 \\2 \\1
+    \end{bmatrix} = 6\begin{bmatrix}
+        1 \\ 2 \\1
+    \end{bmatrix}, \quad \mathbf{A}\begin{bmatrix}
+        1 \\ -1 \\ 1
+    \end{bmatrix} = 3 \begin{bmatrix}
+        1 \\ -1 \\ 1
+    \end{bmatrix}, \quad \mathbf{A} \begin{bmatrix}
+        2 \\ -1 \\ 0
+    \end{bmatrix} = 3 \begin{bmatrix}
+        1 \\ -1 \\ 1
+    \end{bmatrix}
+    \end{align*}
+    \begin{enumerate}[label=\Roman*]
+        \item \textbf{[4 pts]} Find the eigenvalues of $\mathbf{A}$
+        \item \textbf{[4 pts]} In each of the following subquestions, please justify with a reason (based on the theory of eigenvalues and eigenvectors).
+        \begin{enumerate}
+            \item Is $\mathbf{A}$ a diagonalizable matrix?
+            \item Is $\mathbf{A}$ an invertible matrix?
+        \end{enumerate}
+
+    \end{enumerate}
+    \begin{tcolorbox}[fit,height=8cm, width=\textwidth, blank, borderline={0.5pt}{-2pt}, valign=center, nobeforeafter]
+        By the first two equations, it's possible to see that 6 and 3 are eigenvalues of $\Av$, leaving a third eigenvalue $\lambda_3$ unknown. Such eigenvalue will be computed by reconstructing $\Av$ (for the lack of a better option). The equations above let us reconstruct $\Av$, first by expanding them as a system of linear equations:
+        $$
+            \begin{array}{ccccccr}
+                 a_{11} &+& 2a_{12} &+& a_{13} &=& 6 \\
+                 a_{21} &+& 2a_{22} &+& a_{23} &=& 12 \\
+                 a_{31} &+& 2a_{32} &+& a_{33} &=& 6
+            \end{array}
+            \hspace{1cm}
+            \begin{array}{ccccccr}
+                 a_{11} &-& a_{12} &+& a_{13} &=& 3 \\
+                 a_{21} &-& a_{22} &+& a_{23} &=& -3 \\
+                 a_{31} &-& a_{32} &+& a_{33} &=& 3
+            \end{array}
+            \hspace{1cm}
+            \begin{array}{ccccccr}
+                 2a_{11} &-& a_{12} &=& 3 \\
+                 2a_{21} &-& a_{22} &=& -3 \\
+                 2a_{31} &-& a_{32} &=& 3
+            \end{array}
+        $$
+
+        That, after a lot of manual work, through \textit{row echelon reduction} and back-substitution leads to the matrix
+        $$
+            \Av = \threemat{2}{1}{2}{1}{5}{1}{2}{1}{2}
+        $$
+
+        I. Given $tr(\Av) = \lambda_1 + \lambda_2 + \lambda_3 = 6 + 3 + \lambda_3 = 9$, it turns out that the missing eigenvalue is $\lambda_3 = 0$.\\
+
+        II (a). A matrix is diagonalizable if all eigenvalues are different; then $\Av$ \textbf{is diagonalizable}.\\
+        
+        II (b). A matrix is invertible if no eigenvalue is 0; then $\Av$ \textbf{is not invertible}.
+    \end{tcolorbox}     
+    
+\end{questions}
+
+\clearpage
+\textbf{Attendance Question:} Among Lectures 1-4, how many did you attend in person?
+
+\begin{tcolorbox}[fit,height=1cm,blank, borderline={1pt}{-2pt},nobeforeafter]
+    0
+\end{tcolorbox}
+
+    
+\textbf{Collaboration Questions} Please answer the following:
+
+\begin{enumerate}
+    \item Did you receive any help whatsoever from anyone in solving this assignment?
+    \begin{checkboxes}
+     \choice Yes
+     \CorrectChoice No
+    \end{checkboxes}
+    \begin{itemize}
+        \item If you answered `Yes', give full details:
+        \item (e.g. “Jane Doe explained to me what is asked in Question 3.4”)
+    \end{itemize}
+
+    \begin{tcolorbox}[fit,height=3cm,blank, borderline={1pt}{-2pt},nobeforeafter]
+    %Input your solution here.  Do not change any of the specifications of this solution box.
+    \end{tcolorbox}
+
+    \item Did you give any help whatsoever to anyone in solving this assignment?
+    \begin{checkboxes}
+     \choice Yes
+     \CorrectChoice No
+    \end{checkboxes}
+    \begin{itemize}
+        \item If you answered `Yes', give full details:
+        \item (e.g. “I pointed Joe Smith to section 2.3 since he didn’t know how to proceed with Question 2”)
+    \end{itemize}
+
+    \begin{tcolorbox}[fit,height=3cm,blank, borderline={1pt}{-2pt},nobeforeafter]
+    %Input your solution here.  Do not change any of the specifications of this solution box.
+    \end{tcolorbox}
+
+    \item Did you find or come across code that implements any part of this assignment ? 
+    \begin{checkboxes}
+     \choice Yes
+     \CorrectChoice No
+    \end{checkboxes}
+    \begin{itemize}
+        \item If you answered `Yes', give full details: \underline{No}
+        \item (book \& page, URL \& location within the page, etc.).
+    \end{itemize}
+    \begin{tcolorbox}[fit,height=3cm,blank, borderline={1pt}{-2pt},nobeforeafter]
+        I did not find any code, but I implemented myself some computations in NumPy to validate my answers.
+    \end{tcolorbox}
+\end{enumerate}
+
+\end{document}
