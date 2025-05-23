@@ -45,3 +45,10 @@ build/
 
 # Jupyter runtime
 *.nbconvert.ipynb
+
+# LaTeX
+*.log
+*.aux
+*.fls
+*.fdb_latexmk
+*.gz
