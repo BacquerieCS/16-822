@@ -77,7 +77,30 @@ def cross(u: np.ndarray, v: np.ndarray) -> np.ndarray:
     return normalize(np.array([np.cross(u, v)]))[0]
 
 
-
+def metric_rectification(points: np.ndarray) -> np.ndarray:
+    """
+    Computes the metric rectification matrix for the given homogeneous
+    annotations `points`.
+    """
+    # Equation system construction.
+    lines: np.ndarray = get_lines(points)
+    a: np.ndarray = np.zeros((len(lines) // 2, 3), np.float64)
+    j: int = 0
+    for i in range(0, len(lines), 2):
+        l1: np.ndarray = lines[i]
+        l2: np.ndarray = lines[i + 1]
+        a[j] = l1[0] * l2[0], l1[0] * l2[1] + l1[1] * l2[0], l1[1] * l2[1]
+        j += 1
+    # Reconstruction of the ideal circular points.
+    _, _, sol = np.linalg.svd(a)
+    s: np.ndarray = sol[-1]
+    s /= s[-1]
+    sym: np.ndarray = np.array([[s[0], s[1]], [s[1], s[2]]])
+    k: np.ndarray = np.linalg.cholesky(sym)
+    # Metric rectification matrix.
+    metric_h: np.ndarray = np.eye(3)
+    metric_h[:2, :2] = np.linalg.inv(k)
+    return metric_h
 
 
 def normalize(v: np.ndarray) -> np.ndarray:
