@@ -39,17 +39,16 @@ def find_projection(src: np.ndarray, tgt: np.ndarray) -> np.ndarray:
 
 
 homography: np.ndarray = find_projection(
-    normal_points[:, :2],
     perspective_points[:, :2],
+    normal_points[:, :2],
 )
 print("Homography:\n", homography)
 
-ph, pw = perspective_img.shape[:2]
-print(ph, pw)
-warped_img: np.ndarray = cv.warpPerspective(normal_img, homography, (pw, ph))
+ph, pw = normal_img.shape[:2]
+warped_img: np.ndarray = cv.warpPerspective(perspective_img, homography, (pw, ph))
 
 mask = np.any(warped_img != 0, -1)
-output_img: np.ndarray = perspective_img.copy()
+output_img: np.ndarray = normal_img.copy()
 output_img[mask] = warped_img[mask]
 
 #fig, axes = plt.subplots(1, 3, figsize=(15, 10))
@@ -64,5 +63,4 @@ output_img[mask] = warped_img[mask]
 # axes[2].imshow(output_img)
 # axes[2].set_title("Warped and Overlaid Image")
 
-plt.imshow(output_img)
-cv.imwrite("submission/output/q3_painting.png", cv.cvtColor(output_img, cv.COLOR_BGR2RGB))
+cv.imwrite("submission/output/rectif.png", cv.cvtColor(output_img, cv.COLOR_BGR2RGB))
